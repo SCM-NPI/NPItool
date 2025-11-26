@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Server NPI Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Base Theme - Professional Slate */
+    --bg-body: #f8fafc;       /* Slate 50 */
+    --bg-card: #ffffff;
+    --primary: #0f172a;       /* Slate 900 (Deep Navy) */
+    --accent:  #2563eb;       /* Blue 600 */
+    
+    --text-main: #334155;     /* Slate 700 */
+    --text-sub:  #64748b;     /* Slate 500 */
+    --border:    #e2e8f0;     /* Slate 200 */
+
+    /* --- NEW Diverse Cool Tone Palette for Stakeholders --- */
+    
+    /* R&D: Tech Cyan (科技青) - Precise, Technical */
+    --eng-bg: #ecfeff; --eng-text: #0891b2;
+    
+    /* Sourcing: Deep Indigo (深靛藍) - Corporate, Serious, replacing orange */
+    --src-bg: #eef2ff; --src-text: #3730a3;
+    
+    /* Factory: Cool Emerald (冷翠綠) - Operational, calm */
+    --fac-bg: #ecfdf5; --fac-text: #059669;
+    
+    /* PM: Cool Violet (紫羅蘭) - Management, coordination */
+    --pm-bg:  #f5f3ff; --pm-text: #7c3aed;
+    
+    /* ------------------------------------------------------ */
+
+    --font-sans: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body { 
+    font-family: var(--font-sans);
+    background-color: var(--bg-body); 
+    color: var(--text-main); 
+    margin: 0; 
+    padding: 24px 16px; 
+    padding-bottom: 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .container { max-width: 500px; margin: 0 auto; }
+  
+  /* Header */
+  .header { margin-bottom: 24px; text-align: center; }
+  .header h1 { 
+    margin: 0; 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    color: var(--primary); 
+    letter-spacing: -0.01em;
+  }
+  .header p { 
+    margin: 4px 0 0; 
+    color: var(--text-sub); 
+    font-size: 0.875rem; 
+  }
+
+  /* Input Panel */
+  .input-panel { 
+    background: var(--bg-card); 
+    padding: 20px; 
+    border-radius: 16px; 
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); 
+    margin-bottom: 32px; 
+  }
+  
+  /* Switch */
+  .mode-switch {
+    display: flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .mode-switch label {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  input[type="radio"] { display: none; }
+  
+  input[type="radio"]:checked + label {
+    background: var(--bg-card);
+    color: var(--primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  /* Date Input */
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="date"] { 
+    width: 100%; 
+    padding: 12px 16px; 
+    border: 1px solid var(--border); 
+    border-radius: 8px; 
+    font-family: var(--font-mono);
+    font-size: 1rem; 
+    color: var(--primary);
+    background: #fff;
+    box-sizing: border-box; 
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  
+  input[type="date"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  button { 
+    width: 100%; 
+    margin-top: 20px;
+    background-color: var(--primary); 
+    color: white; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 8px; 
+    font-size: 0.95rem; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: transform 0.1s;
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.15);
+  }
+  button:active { transform: scale(0.98); }
+
+  /* Timeline */
+  .timeline { 
+    position: relative; 
+    padding-left: 28px; 
+    margin-top: 10px;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 20px;
+    width: 2px;
+    background: #e2e8f0;
+  }
+  
+  .task-card { 
+    background: var(--bg-card); 
+    margin-bottom: 16px; 
+    padding: 16px; 
+    border-radius: 12px; 
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03); 
+    position: relative;
+  }
+
+  /* Dot */
+  .task-card::after {
+    content: ''; 
+    position: absolute; 
+    left: -26px; 
+    top: 24px;
+    width: 8px; height: 8px; 
+    border-radius: 50%; 
+    background: #fff; 
+    border: 4px solid #cbd5e1;
+    z-index: 2;
+  }
+  
+  .ctr-card::after { border-color: var(--primary); background: var(--primary); }
+
+  /* Card Content */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .l-tag { 
+    font-family: var(--font-mono);
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    color: var(--text-sub); 
+    background: #f1f5f9; 
+    padding: 3px 8px; 
+    border-radius: 6px; 
+  }
+  
+  .date-text { 
+    font-family: var(--font-mono);
+    font-size: 0.8rem; 
+    color: var(--text-main); 
+    font-weight: 500;
+  }
+  
+  .task-name { 
+    display: block; 
+    font-size: 1rem; 
+    font-weight: 600; 
+    color: var(--primary);
+    margin-bottom: 12px; 
+    line-height: 1.4; 
+  }
+  
+  .owner-pill { 
+    display: inline-block; 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 0.7rem; 
+    font-weight: 600; 
+    line-height: 1.4;
+    white-space: normal; 
+  }
+
+  /* Updated Color Assignments */
+  .eng .owner-pill { background: var(--eng-bg); color: var(--eng-text); }
+  .src .owner-pill { background: var(--src-bg); color: var(--src-text); }
+  .fac .owner-pill { background: var(--fac-bg); color: var(--fac-text); }
+  .pm  .owner-pill { background: var(--pm-bg); color: var(--pm-text); }
+  
+  /* CTR Style */
+  .ctr-card { 
+    border: 1px solid var(--primary); 
+    background: #f8fafc;
+  }
+  .ctr-card .l-tag { background: var(--primary); color: white; }
+
+  .footer { 
+    text-align: center; 
+    margin-top: 40px; 
+    font-size: 0.75rem; 
+    color: #94a3b8; 
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="header">
+    <h1>Server NPI Calculator</h1>
+    <p>Professional Edition</p>
+  </div>
+
+  <div class="input-panel">
+    
+    <div class="mode-switch">
+      <input type="radio" id="modeBom" name="calcMode" value="bom" checked onchange="toggleMode()">
+      <label for="modeBom">Forward (BOM)</label>
+      
+      <input type="radio" id="modeCtr" name="calcMode" value="ctr" onchange="toggleMode()">
+      <label for="modeCtr">Backward (CTR)</label>
+    </div>
+
+    <div class="input-group">
+      <label id="dateLabel" for="inputDate">Start: BOM Rev.A (Friday)</label>
+      <input type="date" id="inputDate">
+    </div>
+
+    <button onclick="calculateSchedule()">Calculate Timeline</button>
+  </div>
+
+  <div id="timelineArea" class="timeline" style="display:none;"></div>
+
+  <div class="footer">Server Supply Chain Team</div>
+
+</div>
+
+<script>
+  let currentMode = 'bom';
+
+  function toggleMode() {
+    const bomRadio = document.getElementById('modeBom');
+    const label = document.getElementById('dateLabel');
+    const input = document.getElementById('inputDate');
+    
+    document.getElementById('timelineArea').style.display = 'none';
+    input.value = ''; 
+
+    if (bomRadio.checked) {
+      currentMode = 'bom';
+      label.innerText = "Start: BOM Rev.A (Friday)";
+    } else {
+      currentMode = 'ctr';
+      label.innerText = "Target: CTR Date (Monday)";
+    }
+  }
+
+  function calculateSchedule() {
+    const inputStr = document.getElementById('inputDate').value;
+    if (!inputStr) { return; }
+
+    const inputDate = new Date(inputStr);
+    let ctrDate, bomDate;
+
+    if (currentMode === 'bom') {
+      bomDate = new Date(inputDate);
+      ctrDate = new Date(bomDate);
+      ctrDate.setDate(bomDate.getDate() + 101);
+    } else {
+      ctrDate = new Date(inputDate);
+      bomDate = new Date(ctrDate);
+      bomDate.setDate(ctrDate.getDate() - 101);
+    }
+
+    // --- Task Definitions (No changes in logic here) ---
+    const tasks = [
+      { w: -15, name: "BOM Rev.A (Lockdown)", dur: 0, owner: "R&D", type: "eng", fixed: true },
+      { w: -14, name: "PDM template submission", dur: 0, owner: "NPI BA, PDM", type: "pm" },
+      { w: -13, name: "Corporate BOM completion", dur: 1, owner: "PDM, NPI BA", type: "pm" },
+      { w: -12, name: "Pilot config release", dur: 0, owner: "CTO engineer", type: "eng", isFri: true },
+      { w: -11, name: "RSP BOM completion", dur: 2, owner: "RSP PM, Site Enablement PM, NPI BA", type: "pm" },
+      { w: -11, name: "Raw part PIR completion", dur: 2, owner: "Sourcing, NPI BA", type: "src" },
+      { w: -10, name: "PO placement", dur: 1, owner: "RMM", type: "src" },
+      { w: -10, name: "PDM rule submission", dur: 0, owner: "NPI PM, TPM", type: "pm", isFri: true },
+      { w: -9, name: "ZMOD PIR completion", dur: 2, owner: "Sourcing, NPI BA", type: "src" },
+      { w: -7, name: "UCID (Config Defined)", dur: 0, owner: "CTO engineer", type: "eng" },
+      { w: -6, name: "Virtual Pilot", dur: 2, owner: "Site PM, TPM, NPI PM", type: "fac", isRange: true },
+      { w: -5, name: "Material ready for build", dur: 0, owner: "Sourcing, RMM", type: "src" },
+      { w: -4, name: "SP Build", dur: 2, owner: "Site PM, TPM, NPI PM", type: "fac", isRange: true },
+      { w: -2, name: "MVB Build", dur: 2, owner: "Site PM, TPM, NPI PM", type: "fac", isRange: true },
+      { w: 0, name: "CTR (Clear to Ramp)", dur: 0, owner: "Site Enablement PM, NPI PM", type: "pm", isCTR: true }
+    ];
+
+    renderTimeline(tasks, ctrDate, bomDate);
+  }
+
+  function renderTimeline(tasks, ctrDate, bomDate) {
+    const timeline = document.getElementById('timelineArea');
+    timeline.innerHTML = "";
+    timeline.style.display = "block";
+
+    tasks.forEach(t => {
+      let dateStr, lTag;
+
+      if (t.fixed) {
+        dateStr = formatD(bomDate);
+        lTag = "L" + t.w;
+      } 
+      else if (t.isRange) {
+        const startD = addWeeks(ctrDate, t.w);
+        const endD = new Date(startD);
+        endD.setDate(startD.getDate() + (t.dur * 7) - 3);
+        dateStr = `${formatD(startD)} - ${formatD(endD)}`;
+        lTag = `L${t.w}~L${t.w + t.dur}`;
+      } 
+      else if (t.isFri) {
+        const mon = addWeeks(ctrDate, t.w);
+        const fri = new Date(mon);
+        fri.setDate(mon.getDate() + 4); 
+        dateStr = formatD(fri);
+        lTag = `L${t.w} (Fri)`;
+      }
+      else if (t.dur > 0) {
+        const deadlineMon = addWeeks(ctrDate, t.w);
+        const endD = new Date(deadlineMon);
+        endD.setDate(deadlineMon.getDate() - 3); 
+        const startD = new Date(endD);
+        startD.setDate(endD.getDate() - ( (t.dur * 7) - 3 ));
+        dateStr = `${formatD(startD)} - ${formatD(endD)}`;
+        lTag = `L${t.w}`;
+      } 
+      else {
+        const d = addWeeks(ctrDate, t.w);
+        dateStr = formatD(d);
+        lTag = t.w === 0 ? "L-0" : "L" + t.w;
+      }
+
+      const cardClass = t.isCTR ? "task-card ctr-card" : `task-card ${t.type}`;
+      
+      const html = `
+        <div class="${cardClass}">
+          <div class="card-header">
+            <span class="l-tag">${lTag}</span>
+            <span class="date-text">${dateStr}</span>
+          </div>
+          <span class="task-name">${t.name}</span>
+          <span class="owner-pill">${t.owner}</span>
+        </div>
+      `;
+      timeline.innerHTML += html;
+    });
+  }
+
+  function addWeeks(baseDate, weeks) {
+    const d = new Date(baseDate);
+    d.setDate(d.getDate() + (weeks * 7));
+    return d;
+  }
+
+  function formatD(dateObj) {
+    const m = dateObj.getMonth() + 1;
+    const d = dateObj.getDate();
+    return `${m < 10 ? '0'+m : m}/${d < 10 ? '0'+d : d}`;
+  }
+</script>
+</body>
+</html>
